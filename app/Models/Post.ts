@@ -11,6 +11,7 @@ import {
   computed,
 } from '@ioc:Adonis/Lucid/Orm'
 import { File, User, Reaction } from 'App/Models'
+import { Comment } from 'App/Models'
 
 export default class Post extends BaseModel {
   @column({ isPrimary: true })
@@ -37,13 +38,13 @@ export default class Post extends BaseModel {
   })
   public media: HasOne<typeof File>
 
-  // @hasMany(()=> Comment)
-  // public comments: HasMany<typeof Comment>
+  @hasMany(() => Comment)
+  public comments: HasMany<typeof Comment>
 
-  // @computed()
-  // public get commentsCount() {
-  // return this.comments.comments_count
-  // }
+  @computed()
+  public get commentsCount() {
+    return this.$extras.comments_count
+  }
 
   @hasMany(() => Reaction, { serializeAs: null })
   public reactions: HasMany<typeof Reaction>

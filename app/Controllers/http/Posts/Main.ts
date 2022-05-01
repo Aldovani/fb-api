@@ -43,6 +43,15 @@ export default class PostController {
       query.preload('reactions', () => {
         query.where('user_id', auth.user!.id).first()
       })
+
+      query.preload('comments', (query) => {
+        query.preload('user', (query) => {
+          query.select(['id', 'name', 'username'])
+          query.preload('avatar')
+        })
+      })
+
+      query.withCount('comments')
     })
 
     return user.posts
