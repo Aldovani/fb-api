@@ -1,20 +1,21 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class Conversations extends BaseSchema {
-  protected tableName = 'conversations'
+export default class Messages extends BaseSchema {
+  protected tableName = 'messages'
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
+      table.text('content', 'longtext').notNullable()
       table
-        .integer('user_id_one')
+        .integer('conversation_id')
         .unsigned()
-        .references('users.id')
+        .references('conversations.id')
         .onDelete('CASCADE')
         .onUpdate('CASCADE')
 
       table
-        .integer('user_id_two')
+        .integer('user_id')
         .unsigned()
         .references('users.id')
         .onDelete('CASCADE')

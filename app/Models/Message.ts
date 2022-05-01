@@ -1,5 +1,6 @@
-import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo, afterCreate } from '@ioc:Adonis/Lucid/Orm'
 import { Conversation, User } from 'App/Models'
+import Ws from 'App/Services/Ws'
 export default class Message extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -18,4 +19,12 @@ export default class Message extends BaseModel {
 
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>
+
+  @afterCreate()
+  public static dispatchMessage(message: Message) {
+    Ws.io.to(`room-${message.conversationId}`).emit('newMessage', {
+      content: message.content,
+      userId: message.userId,
+    })
+  }
 }
