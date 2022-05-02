@@ -1,2 +1,6 @@
 export * from './fileCategories'
 export * from './reactionsTypes'
+export * from './isFollowing'
+export * from './OnlineUser'
+export * from './updateOnlineFollowing'
+export * from './getIds'
