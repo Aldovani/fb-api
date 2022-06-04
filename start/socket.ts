@@ -8,7 +8,7 @@ Ws.start((socket) => {
   socket.on('isOnline', async ({ userId }) => {
     onlineUsers.push({
       databaseId: userId,
-      socketId: socket.id
+      socketId: socket.id,
     })
 
     await updateOnlineFollowing({ onlineUsers, socket, userId })
